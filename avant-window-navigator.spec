@@ -2,6 +2,7 @@
 # TODO: Complete buildrequires
 #
 Summary:	Fully customisable dock-like window navigator for GNOME
+Summary(pl.UTF-8):	W pełni konfigurowalny dokowy nawigator okien dla GNOME
 Name:		avant-window-navigator
 %define snap 20070201
 Version:	0.1.1.%{snap}
@@ -29,9 +30,13 @@ Requires(post,preun):	GConf2 >= 2.14.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
-Avant Window Navgator (Awn) is a dock-like bar which sits at the
+Avant Window Navigator (Awn) is a dock-like bar which sits at the
 bottom of the screen (in all its composited-goodness) tracking open
 windows.
+
+%description -l pl.UTF-8
+Avant Window Navigator (Awn) to pasek podobny do doku umiejscowiony na
+dole ekranu śledzący otwarte okna.
 
 %prep
 %setup -q
@@ -40,11 +45,9 @@ windows.
 %{__intltoolize}
 %{__libtoolize}
 %{__aclocal}
-ls ltmain.sh
 %{__autoconf}
 %{__autoheader}
 %{__automake}
-LDFLAGS="%{rpmldflags} -Wl,--as-needed"
 %configure \
 	--disable-schemas-install
 %{__make}
