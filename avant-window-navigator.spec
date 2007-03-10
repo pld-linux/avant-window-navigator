@@ -4,14 +4,14 @@
 Summary:	Fully customisable dock-like window navigator for GNOME
 Summary(pl.UTF-8):	W pełni konfigurowalny dokowy nawigator okien dla GNOME
 Name:		avant-window-navigator
-%define snap 20070201
+%define snap 20070309
 Version:	0.1.1.%{snap}
 Release:	1
 License:	GPL
 Group:		X11/Applications
 #Source0:	http://avant-window-navigator.googlecode.com/files/%{name}-%{version}-2.tar.gz
 Source0:	%{name}-%{version}.tar.gz
-# Source0-md5:	fd118586411eaf68447f79aa338a6561
+# Source0-md5:	45bb43fabf2d101e0447e2b4d2e6c9ae
 URL:		http://code.google.com/p/avant-window-navigator/
 BuildRequires:	GConf2-devel >= 2.14.0
 BuildRequires:	autoconf
@@ -66,11 +66,11 @@ rm -rf $RPM_BUILD_ROOT
 
 %post
 %scrollkeeper_update_post
-%gconf_schema_install %{name}.schemas
+#%gconf_schema_install %{name}.schemas
 gtk-update-icon-cache -qf %{_datadir}/icons/hicolor
 
 %preun
-%gconf_schema_uninstall %{name}.schemas
+#%gconf_schema_uninstall %{name}.schemas
 
 %postun
 %scrollkeeper_update_postun
@@ -79,7 +79,7 @@ gtk-update-icon-cache -qf %{_datadir}/icons/hicolor
 %files -f %{name}.lang
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog NEWS README
-%{_sysconfdir}/gconf/schemas/avant-window-navigator.schemas
+#%{_sysconfdir}/gconf/schemas/avant-window-navigator.schemas
 %attr(755,root,root) %{_bindir}/avant-preferences
 %attr(755,root,root) %{_bindir}/avant-window-navigator
 %{_desktopdir}/avant-preferences.desktop
