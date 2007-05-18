@@ -4,14 +4,14 @@
 Summary:	Fully customisable dock-like window navigator for GNOME
 Summary(pl.UTF-8):	W pełni konfigurowalny dokowy nawigator okien dla GNOME
 Name:		avant-window-navigator
-%define snap 20070404
+%define snap 20070517
 Version:	0.1.1.%{snap}
 Release:	1
 License:	GPL
 Group:		X11/Applications
 #Source0:	http://avant-window-navigator.googlecode.com/files/%{name}-%{version}-2.tar.gz
 Source0:	%{name}-%{version}.tar.gz
-# Source0-md5:	36e749c49e8f5f494a3fcd02b5f7baf5
+# Source0-md5:	47f4f99d847e755c11ab38d856eadaff
 URL:		http://code.google.com/p/avant-window-navigator/
 BuildRequires:	GConf2-devel >= 2.14.0
 BuildRequires:	autoconf
