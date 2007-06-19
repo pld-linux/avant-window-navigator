@@ -61,6 +61,7 @@ rm -rf $RPM_BUILD_ROOT
 
 mv $RPM_BUILD_ROOT%{_datadir}/locale/de{_DE,}
 mv $RPM_BUILD_ROOT%{_datadir}/locale/el{_GR,}
+mv $RPM_BUILD_ROOT%{_datadir}/locale/fi{_FI,}
 mv $RPM_BUILD_ROOT%{_datadir}/locale/fr{_FR,}
 mv $RPM_BUILD_ROOT%{_datadir}/locale/it{_IT,}
 
