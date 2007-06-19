@@ -4,14 +4,14 @@
 Summary:	Fully customisable dock-like window navigator for GNOME
 Summary(pl.UTF-8):	W pełni konfigurowalny dokowy nawigator okien dla GNOME
 Name:		avant-window-navigator
-%define snap 20070517
-Version:	0.1.1.%{snap}
-Release:	1
+%define snap 25.20070525
+Version:	0.1.1
+Release:	1.%{snap}
 License:	GPL
 Group:		X11/Applications
 #Source0:	http://avant-window-navigator.googlecode.com/files/%{name}-%{version}-2.tar.gz
 Source0:	%{name}-%{version}.tar.gz
-# Source0-md5:	47f4f99d847e755c11ab38d856eadaff
+# Source0-md5:	75cc6b67d0d6fdb46cdbdba02182c3de
 URL:		http://code.google.com/p/avant-window-navigator/
 BuildRequires:	GConf2-devel >= 2.14.0
 BuildRequires:	autoconf
@@ -59,6 +59,11 @@ rm -rf $RPM_BUILD_ROOT
 	DESTDIR=$RPM_BUILD_ROOT \
 	GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1
 
+mv $RPM_BUILD_ROOT%{_datadir}/locale/de{_DE,}
+mv $RPM_BUILD_ROOT%{_datadir}/locale/el{_GR,}
+mv $RPM_BUILD_ROOT%{_datadir}/locale/fr{_FR,}
+mv $RPM_BUILD_ROOT%{_datadir}/locale/it{_IT,}
+
 %find_lang %{name} --with-gnome --all-name
 
 %clean
@@ -80,6 +85,7 @@ gtk-update-icon-cache -qf %{_datadir}/icons/hicolor
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog NEWS README
 #%{_sysconfdir}/gconf/schemas/avant-window-navigator.schemas
+%attr(755,root,root) %{_bindir}/avant-launchers
 %attr(755,root,root) %{_bindir}/avant-preferences
 %attr(755,root,root) %{_bindir}/avant-window-navigator
 %{_desktopdir}/avant-preferences.desktop
