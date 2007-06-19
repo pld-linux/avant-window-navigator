@@ -4,14 +4,14 @@
 Summary:	Fully customisable dock-like window navigator for GNOME
 Summary(pl.UTF-8):	W pełni konfigurowalny dokowy nawigator okien dla GNOME
 Name:		avant-window-navigator
-%define snap 25.20070525
+%define snap 20070619
 Version:	0.1.1
 Release:	1.%{snap}
 License:	GPL
 Group:		X11/Applications
 #Source0:	http://avant-window-navigator.googlecode.com/files/%{name}-%{version}-2.tar.gz
 Source0:	%{name}-%{version}.tar.gz
-# Source0-md5:	75cc6b67d0d6fdb46cdbdba02182c3de
+# Source0-md5:	97e74929b15f19b8b73edfe9db1912ef
 URL:		http://code.google.com/p/avant-window-navigator/
 BuildRequires:	GConf2-devel >= 2.14.0
 BuildRequires:	autoconf
@@ -74,21 +74,26 @@ rm -rf $RPM_BUILD_ROOT
 %scrollkeeper_update_post
 #%%gconf_schema_install %{name}.schemas
 gtk-update-icon-cache -qf %{_datadir}/icons/hicolor
+/sbin/ldconfig
 
 %preun
-#%%gconf_schema_uninstall %{name}.schemas
+%gconf_schema_uninstall switcher.schemas trash.schemas
 
 %postun
 %scrollkeeper_update_postun
 gtk-update-icon-cache -qf %{_datadir}/icons/hicolor
+/sbin/ldconfig
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog NEWS README
-#%{_sysconfdir}/gconf/schemas/avant-window-navigator.schemas
+%{_sysconfdir}/gconf/schemas/switcher.schemas
+%{_sysconfdir}/gconf/schemas/trash.schemas
+%attr(755,root,root) %{_bindir}/avant-applets
 %attr(755,root,root) %{_bindir}/avant-launchers
 %attr(755,root,root) %{_bindir}/avant-preferences
 %attr(755,root,root) %{_bindir}/avant-window-navigator
+%attr(755,root,root) %{_bindir}/awn-applet-activation
 %{_desktopdir}/avant-preferences.desktop
 %{_desktopdir}/avant-window-navigator.desktop
 %dir %{_datadir}/avant-window-navigator
@@ -97,3 +102,12 @@ gtk-update-icon-cache -qf %{_datadir}/icons/hicolor
 %{_datadir}/avant-window-navigator/*.png
 %{_datadir}/avant-window-navigator/*.svg
 %{_datadir}/avant-window-navigator/*.glade
+%{_libdir}/*.so.*.*.*
+%dir %{_libdir}/awn
+%dir %{_libdir}/awn/applets
+%{_libdir}/awn/applets/*.desktop
+%dir %{_libdir}/awn/applets/switcher
+%attr(755,root,root) %{_libdir}/awn/applets/switcher/switcher.so
+%dir %{_libdir}/awn/applets/trash
+%attr(755,root,root) %{_libdir}/awn/applets/trash/trash.so
+%{_libdir}/awn/applets/trash/trashapplet.glade
