@@ -72,11 +72,11 @@ rm -rf $RPM_BUILD_ROOT
 
 %post
 %scrollkeeper_update_post
-#%gconf_schema_install %{name}.schemas
+#%%gconf_schema_install %{name}.schemas
 gtk-update-icon-cache -qf %{_datadir}/icons/hicolor
 
 %preun
-#%gconf_schema_uninstall %{name}.schemas
+#%%gconf_schema_uninstall %{name}.schemas
 
 %postun
 %scrollkeeper_update_postun
