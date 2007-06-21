@@ -25,6 +25,7 @@ BuildRequires:	libglade2-devel >= 1:2.6.0
 BuildRequires:	libtool
 BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.197
+Requires(post,postun):	/sbin/ldconfig
 Requires(post,postun):	gtk+2 >= 2:2.10.0
 Requires(post,preun):	GConf2 >= 2.14.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -94,15 +95,7 @@ gtk-update-icon-cache -qf %{_datadir}/icons/hicolor
 %attr(755,root,root) %{_bindir}/avant-preferences
 %attr(755,root,root) %{_bindir}/avant-window-navigator
 %attr(755,root,root) %{_bindir}/awn-applet-activation
-%{_desktopdir}/avant-preferences.desktop
-%{_desktopdir}/avant-window-navigator.desktop
-%dir %{_datadir}/avant-window-navigator
-%dir %{_datadir}/avant-window-navigator/active
-%{_datadir}/avant-window-navigator/active/*.png
-%{_datadir}/avant-window-navigator/*.png
-%{_datadir}/avant-window-navigator/*.svg
-%{_datadir}/avant-window-navigator/*.glade
-%{_libdir}/*.so.*.*.*
+%attr(755,root,root) %{_libdir}/*.so.*.*.*
 %dir %{_libdir}/awn
 %dir %{_libdir}/awn/applets
 %{_libdir}/awn/applets/*.desktop
@@ -111,3 +104,11 @@ gtk-update-icon-cache -qf %{_datadir}/icons/hicolor
 %dir %{_libdir}/awn/applets/trash
 %attr(755,root,root) %{_libdir}/awn/applets/trash/trash.so
 %{_libdir}/awn/applets/trash/trashapplet.glade
+%dir %{_datadir}/avant-window-navigator
+%dir %{_datadir}/avant-window-navigator/active
+%{_datadir}/avant-window-navigator/active/*.png
+%{_datadir}/avant-window-navigator/*.png
+%{_datadir}/avant-window-navigator/*.svg
+%{_datadir}/avant-window-navigator/*.glade
+%{_desktopdir}/avant-preferences.desktop
+%{_desktopdir}/avant-window-navigator.desktop
