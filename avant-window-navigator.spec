@@ -18,11 +18,13 @@ BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	gettext-devel
 BuildRequires:	gnome-common >= 2.12.0
+BuildRequires:	gnome-desktop-devel
 BuildRequires:	gnome-doc-utils >= 0.7.1
 BuildRequires:	gtk+2-devel >= 2:2.10.0
 BuildRequires:	intltool >= 0.35
 BuildRequires:	libglade2-devel >= 1:2.6.0
 BuildRequires:	libtool
+BuildRequires:	libwnck-devel
 BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.197
 Requires(post,postun):	/sbin/ldconfig
