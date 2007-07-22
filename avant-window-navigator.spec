@@ -1,17 +1,17 @@
 #
 # TODO: Complete buildrequires
 #
+%define snap 227
 Summary:	Fully customisable dock-like window navigator for GNOME
 Summary(pl.UTF-8):	W pełni konfigurowalny dokowy nawigator okien dla GNOME
 Name:		avant-window-navigator
-%define snap 20070619
-Version:	0.1.1
-Release:	1.%{snap}
+Version:	0.1.1.%{snap}
+Release:	1
 License:	GPL
 Group:		X11/Applications
 #Source0:	http://avant-window-navigator.googlecode.com/files/%{name}-%{version}-2.tar.gz
 Source0:	%{name}-%{version}.tar.gz
-# Source0-md5:	97e74929b15f19b8b73edfe9db1912ef
+# Source0-md5:	d0e8b5bb67eaa6c7158558c2ec47fa7b
 URL:		http://code.google.com/p/avant-window-navigator/
 BuildRequires:	GConf2-devel >= 2.14.0
 BuildRequires:	autoconf
@@ -40,6 +40,14 @@ windows.
 %description -l pl.UTF-8
 Avant Window Navigator (Awn) to pasek podobny do doku umiejscowiony na
 dole ekranu śledzący otwarte okna.
+
+%package devel
+Summary:	Headers for avant window manager
+Group:		Development/Libraries
+Requires:	%{name} = %{version}
+
+%description devel
+Headers for avant window manager.
 
 %prep
 %setup -q
@@ -105,6 +113,10 @@ gtk-update-icon-cache -qf %{_datadir}/icons/hicolor
 %attr(755,root,root) %{_libdir}/awn/applets/switcher/switcher.so
 %dir %{_libdir}/awn/applets/trash
 %attr(755,root,root) %{_libdir}/awn/applets/trash/trash.so
+%dir %{_libdir}/awn/applets/notification
+%attr(755,root,root) %{_libdir}/awn/applets/notification/notification-area.so
+%dir %{_libdir}/awn/applets/separator
+%attr(755,root,root) %{_libdir}/awn/applets/separator/separator.so
 %{_libdir}/awn/applets/trash/trashapplet.glade
 %dir %{_datadir}/avant-window-navigator
 %dir %{_datadir}/avant-window-navigator/active
@@ -114,3 +126,11 @@ gtk-update-icon-cache -qf %{_datadir}/icons/hicolor
 %{_datadir}/avant-window-navigator/*.glade
 %{_desktopdir}/avant-preferences.desktop
 %{_desktopdir}/avant-window-navigator.desktop
+
+%files devel
+%dir %{_includedir}/libawn
+%{_includedir}/libawn/awn-applet-gconf.h
+%{_includedir}/libawn/awn-applet.h
+%{_includedir}/libawn/awn-defines.h
+%{_libdir}/libawn.la
+%{_pkgconfigdir}/awn.pc
