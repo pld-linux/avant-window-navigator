@@ -1,5 +1,5 @@
 #
-# TODO: Complete buildrequires
+# TODO: Complete buildrequires, -devel deps
 #
 %define snap 227
 Summary:	Fully customisable dock-like window navigator for GNOME
@@ -42,12 +42,16 @@ Avant Window Navigator (Awn) to pasek podobny do doku umiejscowiony na
 dole ekranu śledzący otwarte okna.
 
 %package devel
-Summary:	Headers for avant window manager
+Summary:	Headers for avant window manager library
+Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki zarządcy okien avant
 Group:		Development/Libraries
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 
 %description devel
-Headers for avant window manager.
+Headers for avant window manager library.
+
+%description devel -l pl.UTF-8
+Pliki nagłówkowe biblioteki zarządcy okien avant.
 
 %prep
 %setup -q
@@ -128,9 +132,11 @@ gtk-update-icon-cache -qf %{_datadir}/icons/hicolor
 %{_desktopdir}/avant-window-navigator.desktop
 
 %files devel
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libawn.so
+%{_libdir}/libawn.la
 %dir %{_includedir}/libawn
 %{_includedir}/libawn/awn-applet-gconf.h
 %{_includedir}/libawn/awn-applet.h
 %{_includedir}/libawn/awn-defines.h
-%{_libdir}/libawn.la
 %{_pkgconfigdir}/awn.pc
