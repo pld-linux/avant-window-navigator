@@ -11,7 +11,7 @@ License:	GPL
 Group:		X11/Applications
 #Source0:	http://avant-window-navigator.googlecode.com/files/%{name}-%{version}-2.tar.gz
 Source0:	%{name}-%{snap}.tar.bz2
-# Source0-md5:	448feede231fa19f2212527c358a7bdf
+# Source0-md5:	6a5b64a5d37686409cb5f4272f25e63c
 URL:		https://launchpad.net/awn
 BuildRequires:	GConf2-devel >= 2.14.0
 BuildRequires:	autoconf
