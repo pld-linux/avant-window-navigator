@@ -1,7 +1,7 @@
 #
 # TODO: Complete buildrequires, -devel deps
 #
-%define snap 227
+%define snap 20070918
 Summary:	Fully customisable dock-like window navigator for GNOME
 Summary(pl.UTF-8):	W pełni konfigurowalny dokowy nawigator okien dla GNOME
 Name:		avant-window-navigator
@@ -10,9 +10,9 @@ Release:	1
 License:	GPL
 Group:		X11/Applications
 #Source0:	http://avant-window-navigator.googlecode.com/files/%{name}-%{version}-2.tar.gz
-Source0:	%{name}-%{version}.tar.gz
-# Source0-md5:	d0e8b5bb67eaa6c7158558c2ec47fa7b
-URL:		http://code.google.com/p/avant-window-navigator/
+Source0:	%{name}-%{snap}.tar.bz2
+# Source0-md5:	448feede231fa19f2212527c358a7bdf
+URL:		https://launchpad.net/awn
 BuildRequires:	GConf2-devel >= 2.14.0
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -54,7 +54,7 @@ Headers for avant window manager library.
 Pliki nagłówkowe biblioteki zarządcy okien avant.
 
 %prep
-%setup -q
+%setup -q -n %{name}-%{snap}
 
 %build
 %{__intltoolize}
@@ -74,11 +74,11 @@ rm -rf $RPM_BUILD_ROOT
 	DESTDIR=$RPM_BUILD_ROOT \
 	GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1
 
-mv $RPM_BUILD_ROOT%{_datadir}/locale/de{_DE,}
-mv $RPM_BUILD_ROOT%{_datadir}/locale/el{_GR,}
-mv $RPM_BUILD_ROOT%{_datadir}/locale/fi{_FI,}
-mv $RPM_BUILD_ROOT%{_datadir}/locale/fr{_FR,}
-mv $RPM_BUILD_ROOT%{_datadir}/locale/it{_IT,}
+#mv $RPM_BUILD_ROOT%{_datadir}/locale/de{_DE,}
+#mv $RPM_BUILD_ROOT%{_datadir}/locale/el{_GR,}
+#mv $RPM_BUILD_ROOT%{_datadir}/locale/fi{_FI,}
+#mv $RPM_BUILD_ROOT%{_datadir}/locale/fr{_FR,}
+#mv $RPM_BUILD_ROOT%{_datadir}/locale/it{_IT,}
 
 %find_lang %{name} --with-gnome --all-name
 
@@ -92,7 +92,7 @@ gtk-update-icon-cache -qf %{_datadir}/icons/hicolor
 /sbin/ldconfig
 
 %preun
-%gconf_schema_uninstall switcher.schemas trash.schemas
+#%%gconf_schema_uninstall switcher.schemas trash.schemas
 
 %postun
 %scrollkeeper_update_postun
@@ -102,41 +102,27 @@ gtk-update-icon-cache -qf %{_datadir}/icons/hicolor
 %files -f %{name}.lang
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog NEWS README
-%{_sysconfdir}/gconf/schemas/switcher.schemas
-%{_sysconfdir}/gconf/schemas/trash.schemas
-%attr(755,root,root) %{_bindir}/avant-applets
-%attr(755,root,root) %{_bindir}/avant-launchers
-%attr(755,root,root) %{_bindir}/avant-preferences
+#%{_sysconfdir}/gconf/schemas/switcher.schemas
+#%{_sysconfdir}/gconf/schemas/trash.schemas
 %attr(755,root,root) %{_bindir}/avant-window-navigator
 %attr(755,root,root) %{_bindir}/awn-applet-activation
+%attr(755,root,root) %{_bindir}/awn-manager
 %attr(755,root,root) %{_libdir}/*.so.*.*.*
 %dir %{_libdir}/awn
 %dir %{_libdir}/awn/applets
 %{_libdir}/awn/applets/*.desktop
-%dir %{_libdir}/awn/applets/switcher
-%attr(755,root,root) %{_libdir}/awn/applets/switcher/switcher.so
-%dir %{_libdir}/awn/applets/trash
-%attr(755,root,root) %{_libdir}/awn/applets/trash/trash.so
-%dir %{_libdir}/awn/applets/notification
-%attr(755,root,root) %{_libdir}/awn/applets/notification/notification-area.so
-%dir %{_libdir}/awn/applets/separator
-%attr(755,root,root) %{_libdir}/awn/applets/separator/separator.so
-%{_libdir}/awn/applets/trash/trashapplet.glade
-%dir %{_datadir}/avant-window-navigator
-%dir %{_datadir}/avant-window-navigator/active
-%{_datadir}/avant-window-navigator/active/*.png
-%{_datadir}/avant-window-navigator/*.png
-%{_datadir}/avant-window-navigator/*.svg
-%{_datadir}/avant-window-navigator/*.glade
-%{_desktopdir}/avant-preferences.desktop
+%{_datadir}/avant-window-navigator
+%{_desktopdir}/awn-manager.desktop
 %{_desktopdir}/avant-window-navigator.desktop
+%dir %{py_sitedir}/awn
+%{py_sitedir}/awn/*.py[co]
+%{py_sitedir}/awn/awn.so
 
 %files devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libawn.so
 %{_libdir}/libawn.la
 %dir %{_includedir}/libawn
-%{_includedir}/libawn/awn-applet-gconf.h
-%{_includedir}/libawn/awn-applet.h
-%{_includedir}/libawn/awn-defines.h
+%{_includedir}/libawn
+%{py_sitedir}/awn/awn.la
 %{_pkgconfigdir}/awn.pc
