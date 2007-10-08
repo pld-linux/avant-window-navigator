@@ -1,17 +1,15 @@
 #
 # TODO: Complete buildrequires, -devel deps
 #
-%define snap 20070918
 Summary:	Fully customisable dock-like window navigator for GNOME
 Summary(pl.UTF-8):	W pełni konfigurowalny dokowy nawigator okien dla GNOME
 Name:		avant-window-navigator
-Version:	0.1.1.%{snap}
+Version:	0.2
 Release:	1
 License:	GPL
 Group:		X11/Applications
-#Source0:	http://avant-window-navigator.googlecode.com/files/%{name}-%{version}-2.tar.gz
-Source0:	%{name}-%{snap}.tar.bz2
-# Source0-md5:	6a5b64a5d37686409cb5f4272f25e63c
+Source0:	https://launchpad.net/awn/0.2/0.2/+download/avant-window-navigator-0.2.tar
+# Source0-md5:	ca6e741c833ca99a5dc4a8ad1d024147
 URL:		https://launchpad.net/awn
 BuildRequires:	GConf2-devel >= 2.14.0
 BuildRequires:	autoconf
@@ -26,6 +24,8 @@ BuildRequires:	libglade2-devel >= 1:2.6.0
 BuildRequires:	libtool
 BuildRequires:	libwnck-devel
 BuildRequires:	pkgconfig
+BuildRequires:	python-gnome-devel
+BuildRequires:	python-pycairo-devel
 BuildRequires:	rpmbuild(macros) >= 1.197
 Requires(post,postun):	/sbin/ldconfig
 Requires(post,postun):	gtk+2 >= 2:2.10.0
@@ -54,7 +54,7 @@ Headers for avant window manager library.
 Pliki nagłówkowe biblioteki zarządcy okien avant.
 
 %prep
-%setup -q -n %{name}-%{snap}
+%setup -q
 
 %build
 %{__intltoolize}
