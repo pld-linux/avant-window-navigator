@@ -1,6 +1,3 @@
-#
-# TODO: Complete buildrequires, -devel deps
-#
 Summary:	Fully customisable dock-like window navigator for GNOME
 Summary(pl.UTF-8):	W pełni konfigurowalny dokowy nawigator okien dla GNOME
 Name:		avant-window-navigator
@@ -13,24 +10,32 @@ Source0:	https://launchpad.net/awn/0.2/0.2/+download/avant-window-navigator-0.2.
 URL:		https://launchpad.net/awn
 BuildRequires:	GConf2-devel >= 2.14.0
 BuildRequires:	autoconf
-BuildRequires:	automake
+BuildRequires:	automake >= 1:1.8
+BuildRequires:	dbus-glib-devel >= 0.30
 BuildRequires:	gettext-devel
-BuildRequires:	gnome-common >= 2.12.0
-BuildRequires:	gnome-desktop-devel
+BuildRequires:	gnome-desktop-devel >= 2.0
 BuildRequires:	gnome-doc-utils >= 0.7.1
+BuildRequires:	gnome-vfs2-devel >= 2.0
 BuildRequires:	gtk+2-devel >= 2:2.10.0
-BuildRequires:	intltool >= 0.35
+BuildRequires:	intltool >= 0.34
 BuildRequires:	libglade2-devel >= 1:2.6.0
 BuildRequires:	libtool
-BuildRequires:	libwnck-devel
+BuildRequires:	libwnck-devel >= 2.0
 BuildRequires:	pkgconfig
+BuildRequires:	python-devel >= 2.3.5
 BuildRequires:	python-gnome-devel
-BuildRequires:	python-pycairo-devel
+BuildRequires:	python-pycairo-devel >= 1.0.2
+BuildRequires:	python-pygtk-devel >= 2:2.8.0
+BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.311
+BuildRequires:	xorg-lib-libXcomposite-devel
+BuildRequires:	xorg-lib-libXdamage-devel
+BuildRequires:	xorg-lib-libXrender-devel
 Requires(post,postun):	/sbin/ldconfig
 Requires(post,postun):	gtk+2 >= 2:2.10.0
 Requires(post,postun):	hicolor-icon-theme
-Requires(post,preun):	GConf2 >= 2.14.0
+Requires:	python-pycairo >= 1.0.2
+Requires:	python-pygtk-gtk >= 2:2.8.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -43,16 +48,38 @@ Avant Window Navigator (Awn) to pasek podobny do doku umiejscowiony na
 dole ekranu śledzący otwarte okna.
 
 %package devel
-Summary:	Headers for avant window manager library
-Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki zarządcy okien avant
+Summary:	Headers for avant window navigator library
+Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki nawigatora okien avant
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
+Requires:	GConf2-devel >= 2.14.0
+Requires:	dbus-glib-devel >= 0.30
+Requires:	gnome-desktop-devel >= 2.0
+Requires:	gnome-vfs2-devel >= 2.0
+Requires:	gtk+2-devel >= 2:2.10.0
+Requires:	libglade2-devel >= 1:2.6.0
+Requires:	libwnck-devel >= 2.0
+Requires:	xorg-lib-libXcomposite-devel
+Requires:	xorg-lib-libXdamage-devel
+Requires:	xorg-lib-libXrender-devel
 
 %description devel
-Headers for avant window manager library.
+Headers for avant window navigator library.
 
 %description devel -l pl.UTF-8
-Pliki nagłówkowe biblioteki zarządcy okien avant.
+Pliki nagłówkowe biblioteki nawigatora okien avant.
+
+%package static
+Summary:	Static avant window navigator library
+Summary(pl.UTF-8):	Statyczna biblioteka nawigatora okien avant
+Group:		Development/Libraries
+Requires:	%{name}-devel = %{version}-%{release}
+
+%description static
+Static avant window navigator library.
+
+%description static -l pl.UTF-8
+Statyczna biblioteka nawigatora okien avant.
 
 %prep
 %setup -q
@@ -64,24 +91,21 @@ Pliki nagłówkowe biblioteki zarządcy okien avant.
 %{__autoconf}
 %{__autoheader}
 %{__automake}
-%configure \
-	--disable-schemas-install
+%configure
+
 %{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
 %{__make} install \
-	DESTDIR=$RPM_BUILD_ROOT \
-	GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1
+	DESTDIR=$RPM_BUILD_ROOT
 
-#mv $RPM_BUILD_ROOT%{_datadir}/locale/de{_DE,}
-#mv $RPM_BUILD_ROOT%{_datadir}/locale/el{_GR,}
-#mv $RPM_BUILD_ROOT%{_datadir}/locale/fi{_FI,}
-#mv $RPM_BUILD_ROOT%{_datadir}/locale/fr{_FR,}
-#mv $RPM_BUILD_ROOT%{_datadir}/locale/it{_IT,}
+# there are more complete de,fi,fr,it,ru,nb already
+rm -r $RPM_BUILD_ROOT%{_datadir}/locale/{de_DE,fi_FI,fr_FR,it_IT,ru_RU,no_NO}
 
-rm -f $RPM_BUILD_ROOT%{py_sitedir}/awn/awn.la
+rm -f $RPM_BUILD_ROOT%{py_sitedir}/awn/awn.{la,a}
+%py_postclean
 
 %find_lang %{name} --with-gnome --all-name
 
@@ -90,25 +114,20 @@ rm -rf $RPM_BUILD_ROOT
 
 %post
 /sbin/ldconfig
-#%%gconf_schema_install %{name}.schemas
 %update_icon_cache hicolor
-
-%preun
-#%%gconf_schema_uninstall switcher.schemas trash.schemas
 
 %postun
-%update_icon_cache hicolor
 /sbin/ldconfig
+%update_icon_cache hicolor
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog NEWS README
-#%{_sysconfdir}/gconf/schemas/switcher.schemas
-#%{_sysconfdir}/gconf/schemas/trash.schemas
 %attr(755,root,root) %{_bindir}/avant-window-navigator
 %attr(755,root,root) %{_bindir}/awn-applet-activation
 %attr(755,root,root) %{_bindir}/awn-manager
 %attr(755,root,root) %{_libdir}/libawn.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libawn.so.0
 %dir %{_libdir}/awn
 %dir %{_libdir}/awn/applets
 %{_libdir}/awn/applets/*.desktop
@@ -125,3 +144,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libawn.la
 %{_includedir}/libawn
 %{_pkgconfigdir}/awn.pc
+
+%files static
+%defattr(644,root,root,755)
+%{_libdir}/libawn.a
