@@ -1,13 +1,13 @@
 Summary:	Fully customisable dock-like window navigator for GNOME
 Summary(pl.UTF-8):	W pełni konfigurowalny dokowy nawigator okien dla GNOME
 Name:		avant-window-navigator
-Version:	0.2
+Version:	0.2.1
 Release:	1
-License:	GPL
+License:	GPL v2+
 Group:		X11/Applications
-Source0:	https://launchpad.net/awn/0.2/0.2/+download/avant-window-navigator-0.2.tar
-# Source0-md5:	ca6e741c833ca99a5dc4a8ad1d024147
-URL:		https://launchpad.net/awn
+Source0:	https://launchpad.net/awn/0.2/%{version}/+download/avant-window-navigator-%{version}.tar
+# Source0-md5:	59733ce392d58236338736f6726cac9d
+URL:		https://launchpad.net/awn/
 BuildRequires:	GConf2-devel >= 2.14.0
 BuildRequires:	autoconf
 BuildRequires:	automake >= 1:1.8
@@ -20,7 +20,7 @@ BuildRequires:	gtk+2-devel >= 2:2.10.0
 BuildRequires:	intltool >= 0.34
 BuildRequires:	libglade2-devel >= 1:2.6.0
 BuildRequires:	libtool
-BuildRequires:	libwnck-devel >= 2.0
+BuildRequires:	libwnck-devel >= 2.20.0
 BuildRequires:	pkgconfig
 BuildRequires:	python-devel >= 2.3.5
 BuildRequires:	python-gnome-devel
@@ -58,7 +58,7 @@ Requires:	gnome-desktop-devel >= 2.0
 Requires:	gnome-vfs2-devel >= 2.0
 Requires:	gtk+2-devel >= 2:2.10.0
 Requires:	libglade2-devel >= 1:2.6.0
-Requires:	libwnck-devel >= 2.0
+Requires:	libwnck-devel >= 2.20.0
 Requires:	xorg-lib-libXcomposite-devel
 Requires:	xorg-lib-libXdamage-devel
 Requires:	xorg-lib-libXrender-devel
@@ -122,7 +122,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
-%doc AUTHORS ChangeLog NEWS README
+%doc AUTHORS ChangeLog README TODO
 %attr(755,root,root) %{_bindir}/avant-window-navigator
 %attr(755,root,root) %{_bindir}/awn-applet-activation
 %attr(755,root,root) %{_bindir}/awn-manager
