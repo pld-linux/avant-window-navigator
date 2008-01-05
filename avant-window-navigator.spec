@@ -26,9 +26,10 @@ BuildRequires:	libwnck-devel
 BuildRequires:	pkgconfig
 BuildRequires:	python-gnome-devel
 BuildRequires:	python-pycairo-devel
-BuildRequires:	rpmbuild(macros) >= 1.197
+BuildRequires:	rpmbuild(macros) >= 1.311
 Requires(post,postun):	/sbin/ldconfig
 Requires(post,postun):	gtk+2 >= 2:2.10.0
+Requires(post,postun):	hicolor-icon-theme
 Requires(post,preun):	GConf2 >= 2.14.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -80,23 +81,23 @@ rm -rf $RPM_BUILD_ROOT
 #mv $RPM_BUILD_ROOT%{_datadir}/locale/fr{_FR,}
 #mv $RPM_BUILD_ROOT%{_datadir}/locale/it{_IT,}
 
+rm -f $RPM_BUILD_ROOT%{py_sitedir}/awn/awn.la
+
 %find_lang %{name} --with-gnome --all-name
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %post
-%scrollkeeper_update_post
-#%%gconf_schema_install %{name}.schemas
-gtk-update-icon-cache -qf %{_datadir}/icons/hicolor
 /sbin/ldconfig
+#%%gconf_schema_install %{name}.schemas
+%update_icon_cache hicolor
 
 %preun
 #%%gconf_schema_uninstall switcher.schemas trash.schemas
 
 %postun
-%scrollkeeper_update_postun
-gtk-update-icon-cache -qf %{_datadir}/icons/hicolor
+%update_icon_cache hicolor
 /sbin/ldconfig
 
 %files -f %{name}.lang
@@ -107,7 +108,7 @@ gtk-update-icon-cache -qf %{_datadir}/icons/hicolor
 %attr(755,root,root) %{_bindir}/avant-window-navigator
 %attr(755,root,root) %{_bindir}/awn-applet-activation
 %attr(755,root,root) %{_bindir}/awn-manager
-%attr(755,root,root) %{_libdir}/*.so.*.*.*
+%attr(755,root,root) %{_libdir}/libawn.so.*.*.*
 %dir %{_libdir}/awn
 %dir %{_libdir}/awn/applets
 %{_libdir}/awn/applets/*.desktop
@@ -116,13 +117,11 @@ gtk-update-icon-cache -qf %{_datadir}/icons/hicolor
 %{_desktopdir}/avant-window-navigator.desktop
 %dir %{py_sitedir}/awn
 %{py_sitedir}/awn/*.py[co]
-%{py_sitedir}/awn/awn.so
+%attr(755,root,root) %{py_sitedir}/awn/awn.so
 
 %files devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libawn.so
 %{_libdir}/libawn.la
-%dir %{_includedir}/libawn
 %{_includedir}/libawn
-%{py_sitedir}/awn/awn.la
 %{_pkgconfigdir}/awn.pc
