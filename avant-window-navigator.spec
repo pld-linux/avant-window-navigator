@@ -1,12 +1,14 @@
+#
+# To do: package vala and apidocs
 Summary:	Fully customisable dock-like window navigator for GNOME
 Summary(pl.UTF-8):	W pełni konfigurowalny dokowy nawigator okien dla GNOME
 Name:		avant-window-navigator
-Version:	0.2.1
+Version:	0.2.6
 Release:	1
 License:	GPL v2+
 Group:		X11/Applications
-Source0:	https://launchpad.net/awn/0.2/%{version}/+download/avant-window-navigator-%{version}.tar
-# Source0-md5:	59733ce392d58236338736f6726cac9d
+Source0:	https://launchpad.net/awn/0.2/%{version}/+download/%{name}-%{version}.tar.gz
+# Source0-md5:	3e066ba095396673f914b63e022acbb8
 URL:		https://launchpad.net/awn/
 BuildRequires:	GConf2-devel >= 2.14.0
 BuildRequires:	autoconf
@@ -123,9 +125,12 @@ rm -rf $RPM_BUILD_ROOT
 %files -f %{name}.lang
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog README TODO
+%{_sysconfdir}/gconf/schemas/awn.schemas
 %attr(755,root,root) %{_bindir}/avant-window-navigator
 %attr(755,root,root) %{_bindir}/awn-applet-activation
 %attr(755,root,root) %{_bindir}/awn-manager
+%attr(755,root,root) %{_bindir}/awn-launcher-editor
+%attr(755,root,root) %{_bindir}/awn-schema-to-gconf
 %attr(755,root,root) %{_libdir}/libawn.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libawn.so.0
 %dir %{_libdir}/awn
@@ -134,9 +139,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/avant-window-navigator
 %{_desktopdir}/awn-manager.desktop
 %{_desktopdir}/avant-window-navigator.desktop
-%dir %{py_sitedir}/awn
-%{py_sitedir}/awn/*.py[co]
-%attr(755,root,root) %{py_sitedir}/awn/awn.so
+%dir %{py_sitescriptdir}/awn
+%{py_sitescriptdir}/awn/__init__.py[co]
+%attr(755,root,root) %{py_sitescriptdir}/awn/awn.so
+%{_iconsdir}/hicolor/48x48/apps/awn-manager.png
+%{_iconsdir}/hicolor/scalable/apps/awn-manager.svg
 
 %files devel
 %defattr(644,root,root,755)
@@ -144,6 +151,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libawn.la
 %{_includedir}/libawn
 %{_pkgconfigdir}/awn.pc
+#%{_datadir}/vala/vapi/awn.deps
+#%{_datadir}/vala/vapi/awn.vapi
 
 %files static
 %defattr(644,root,root,755)
