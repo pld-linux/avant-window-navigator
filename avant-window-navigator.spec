@@ -4,7 +4,7 @@ Summary:	Fully customisable dock-like window navigator for GNOME
 Summary(pl.UTF-8):	W pełni konfigurowalny dokowy nawigator okien dla GNOME
 Name:		avant-window-navigator
 Version:	0.2.6
-Release:	1
+Release:	2
 License:	GPL v2+
 Group:		X11/Applications
 Source0:	https://launchpad.net/awn/0.2/%{version}/+download/%{name}-%{version}.tar.gz
@@ -28,6 +28,7 @@ BuildRequires:	python-devel >= 2.3.5
 BuildRequires:	python-gnome-devel
 BuildRequires:	python-pycairo-devel >= 1.0.2
 BuildRequires:	python-pygtk-devel >= 2:2.8.0
+BuildRequires:	python-pyxdg
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.311
 BuildRequires:	xorg-lib-libXcomposite-devel
