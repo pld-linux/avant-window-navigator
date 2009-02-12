@@ -3,12 +3,12 @@
 Summary:	Fully customisable dock-like window navigator for GNOME
 Summary(pl.UTF-8):	W pełni konfigurowalny dokowy nawigator okien dla GNOME
 Name:		avant-window-navigator
-Version:	0.2.6
-Release:	4
+Version:	0.3.2
+Release:	1
 License:	GPL v2+
 Group:		X11/Applications
 Source0:	https://launchpad.net/awn/0.2/%{version}/+download/%{name}-%{version}.tar.gz
-# Source0-md5:	3e066ba095396673f914b63e022acbb8
+# Source0-md5:	e884bfaf9e3f4a7a99373227d7a24b5f
 URL:		https://launchpad.net/awn/
 BuildRequires:	GConf2-devel >= 2.14.0
 BuildRequires:	autoconf
@@ -105,47 +105,63 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-# there are more complete de,fi,fr,it,ru,nb already
-rm -r $RPM_BUILD_ROOT%{_datadir}/locale/{de_DE,fi_FI,fr_FR,it_IT,ru_RU,no_NO}
+# unsupported(?)
+%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/{bs,ku,lv,mk,nds}
 
-rm -f $RPM_BUILD_ROOT%{py_sitedir}/awn/awn.{la,a}
+%{__rm} $RPM_BUILD_ROOT%{py_sitedir}/awn/awn.{la,a}
 %py_postclean
 
 %find_lang %{name} --with-gnome --all-name
+
+# move docs into proper place
+%{__mv} -f $RPM_BUILD_ROOT%{_datadir}/gtk-doc $RPM_BUILD_ROOT%{_docdir}
+# delete the rest
+%{__rm} -r $RPM_BUILD_ROOT%{_docdir}/html/
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %post
 /sbin/ldconfig
+%gconf_schema_install awn.schemas
+%gconf_schema_install awn-applets-shared.schemas
 %update_icon_cache hicolor
 
 %postun
 /sbin/ldconfig
 %update_icon_cache hicolor
 
+%preun
+%gconf_schema_uninstall awn.schemas
+%gconf_schema_uninstall awn-applets-shared.schemas
+
+
 %files -f %{name}.lang
 %defattr(644,root,root,755)
-%doc AUTHORS ChangeLog README TODO
+%doc AUTHORS ChangeLog README TODO doc/reference/html/*
 %{_sysconfdir}/gconf/schemas/awn.schemas
+%{_sysconfdir}/gconf/schemas/awn-applets-shared.schemas
 %attr(755,root,root) %{_bindir}/avant-window-navigator
+%attr(755,root,root) %{_bindir}/awn-autostart
 %attr(755,root,root) %{_bindir}/awn-applet-activation
+%attr(755,root,root) %{_bindir}/awn-applets-migration
 %attr(755,root,root) %{_bindir}/awn-manager
 %attr(755,root,root) %{_bindir}/awn-launcher-editor
 %attr(755,root,root) %{_bindir}/awn-schema-to-gconf
 %attr(755,root,root) %{_libdir}/libawn.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libawn.so.0
-%dir %{_libdir}/awn
-%dir %{_libdir}/awn/applets
-%{_libdir}/awn/applets/*.desktop
 %{_datadir}/avant-window-navigator
 %{_desktopdir}/awn-manager.desktop
 %{_desktopdir}/avant-window-navigator.desktop
-%dir %{py_sitescriptdir}/awn
+%dir %{py_libdir}/site-packages/awn
 %{py_sitescriptdir}/awn/__init__.py[co]
-%attr(755,root,root) %{py_sitescriptdir}/awn/awn.so
+%attr(755,root,root) %{py_libdir}/site-packages/awn/awn.so
+%{_iconsdir}/hicolor/24x24/apps/avant-window-navigator.png
+%{_iconsdir}/hicolor/32x32/apps/avant-window-navigator.png
 %{_iconsdir}/hicolor/48x48/apps/awn-manager.png
+%{_iconsdir}/hicolor/48x48/apps/avant-window-navigator.png
 %{_iconsdir}/hicolor/scalable/apps/awn-manager.svg
+%{_iconsdir}/hicolor/scalable/apps/avant-window-navigator.svg
 
 %files devel
 %defattr(644,root,root,755)
@@ -153,8 +169,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libawn.la
 %{_includedir}/libawn
 %{_pkgconfigdir}/awn.pc
-#%{_datadir}/vala/vapi/awn.deps
-#%{_datadir}/vala/vapi/awn.vapi
 
 %files static
 %defattr(644,root,root,755)
