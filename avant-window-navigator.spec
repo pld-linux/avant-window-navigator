@@ -106,7 +106,7 @@ rm -rf $RPM_BUILD_ROOT
 	DESTDIR=$RPM_BUILD_ROOT
 
 # unsupported(?)
-%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/{bs,ku,lv,mk,nds}
+%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/{bs,jv,ku,lv,mk,nds}
 
 %{__rm} $RPM_BUILD_ROOT%{py_sitedir}/awn/awn.{la,a}
 %py_postclean
@@ -154,6 +154,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_desktopdir}/awn-manager.desktop
 %{_desktopdir}/avant-window-navigator.desktop
 %dir %{py_libdir}/site-packages/awn
+%dir %{py_sitescriptdir}/awn
 %{py_sitescriptdir}/awn/__init__.py[co]
 %attr(755,root,root) %{py_libdir}/site-packages/awn/awn.so
 %{_iconsdir}/hicolor/24x24/apps/avant-window-navigator.png
