@@ -7,6 +7,7 @@ License:	GPL v2+
 Group:		X11/Applications
 Source0:	https://launchpad.net/awn/0.2/%{version}/+download/%{name}-%{version}.tar.gz
 # Source0-md5:	e884bfaf9e3f4a7a99373227d7a24b5f
+Patch0:		%{name}-python-platform.patch
 URL:		https://launchpad.net/awn/
 BuildRequires:	GConf2-devel >= 2.14.0
 BuildRequires:	autoconf
@@ -106,6 +107,7 @@ Wiązania Vala do biblioteki libawn.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 %{__intltoolize}
@@ -170,10 +172,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/avant-window-navigator
 %{_desktopdir}/awn-manager.desktop
 %{_desktopdir}/avant-window-navigator.desktop
-%dir %{py_libdir}/site-packages/awn
-%dir %{py_sitescriptdir}/awn
-%{py_sitescriptdir}/awn/__init__.py[co]
-%attr(755,root,root) %{py_libdir}/site-packages/awn/awn.so
+%dir %{py_sitedir}/awn
+%{py_sitedir}/awn/__init__.py[co]
+%attr(755,root,root) %{py_sitedir}/awn/awn.so
 %{_iconsdir}/hicolor/24x24/apps/avant-window-navigator.png
 %{_iconsdir}/hicolor/32x32/apps/avant-window-navigator.png
 %{_iconsdir}/hicolor/48x48/apps/awn-manager.png
