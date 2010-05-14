@@ -13,6 +13,7 @@ BuildRequires:	GConf2-devel >= 2.14.0
 BuildRequires:	autoconf
 BuildRequires:	automake >= 1:1.8
 BuildRequires:	dbus-glib-devel >= 0.30
+BuildRequires:	docbook-dtd412-xml
 BuildRequires:	gettext-devel
 BuildRequires:	glib2-devel >= 1:2.16.0
 BuildRequires:	gnome-desktop-devel >= 2.0
