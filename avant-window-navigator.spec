@@ -134,6 +134,7 @@ rm -rf $RPM_BUILD_ROOT
 # unsupported(?)
 %{__rm} -r $RPM_BUILD_ROOT%{_localedir}/{bs,jv,ku,lv,mk,nds}
 
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/*.la
 %{__rm} $RPM_BUILD_ROOT%{py_sitedir}/awn/awn.{la,a}
 %py_postclean
 
@@ -186,7 +187,6 @@ rm -rf $RPM_BUILD_ROOT
 %files devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libawn.so
-%{_libdir}/libawn.la
 %{_includedir}/libawn
 %{_pkgconfigdir}/awn.pc
 
