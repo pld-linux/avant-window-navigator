@@ -2,7 +2,7 @@ Summary:	Fully customisable dock-like window navigator for GNOME
 Summary(pl.UTF-8):	W pełni konfigurowalny dokowy nawigator okien dla GNOME
 Name:		avant-window-navigator
 Version:	0.3.2
-Release:	3
+Release:	4
 License:	GPL v2+
 Group:		X11/Applications
 Source0:	https://launchpad.net/awn/0.2/%{version}/+download/%{name}-%{version}.tar.gz
