@@ -1,46 +1,45 @@
 Summary:	Fully customisable dock-like window navigator for GNOME
 Summary(pl.UTF-8):	W pełni konfigurowalny dokowy nawigator okien dla GNOME
 Name:		avant-window-navigator
-Version:	0.3.2
-Release:	7
+Version:	0.4.0
+Release:	1
 License:	GPL v2+
 Group:		X11/Applications
-Source0:	https://launchpad.net/awn/0.2/%{version}/+download/%{name}-%{version}.tar.gz
-# Source0-md5:	e884bfaf9e3f4a7a99373227d7a24b5f
-Patch0:		%{name}-python-platform.patch
+Source0:	http://launchpad.net/awn/0.4/%{version}/+download/%{name}-%{version}.tar.gz
+# Source0-md5:	03654b45dd95cbb83fa7e112bd00523c
 URL:		https://launchpad.net/awn/
 BuildRequires:	GConf2-devel >= 2.14.0
 BuildRequires:	autoconf
 BuildRequires:	automake >= 1:1.8
-BuildRequires:	dbus-glib-devel >= 0.30
+BuildRequires:	dbus-glib-devel >= 0.80
 BuildRequires:	docbook-dtd412-xml
 BuildRequires:	gettext-devel
 BuildRequires:	glib2-devel >= 1:2.16.0
 BuildRequires:	gnome-desktop-devel >= 2.0
 BuildRequires:	gnome-vfs2-devel >= 2.0
-BuildRequires:	gtk+2-devel >= 2:2.10.0
+BuildRequires:	gtk+2-devel >= 2:2.12.0
 BuildRequires:	gtk-doc >= 1.4
 BuildRequires:	intltool >= 0.34
+BuildRequires:	libdesktop-agnostic-devel >= 0.3.9
 BuildRequires:	libgnome-devel
 BuildRequires:	libtool
-BuildRequires:	libwnck-devel >= 2.20.0
+BuildRequires:	libwnck2-devel >= 2.22
 BuildRequires:	pkgconfig
 BuildRequires:	python-devel >= 2.3.5
 BuildRequires:	python-pycairo-devel >= 1.0.2
-BuildRequires:	python-pygtk-devel >= 2:2.10.0
+BuildRequires:	python-pygtk-devel >= 2:2.12.0
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.311
-BuildRequires:	vala >= 0.5.4
+BuildRequires:	vala >= 0.7.10
 BuildRequires:	xorg-lib-libXcomposite-devel
 BuildRequires:	xorg-lib-libXdamage-devel
 BuildRequires:	xorg-lib-libXrender-devel
 Requires(post,postun):	/sbin/ldconfig
 Requires(post,postun):	gtk-update-icon-cache
 Requires(post,postun):	hicolor-icon-theme
-Requires(post,preun):	GConf2
 Requires:	python-pycairo >= 1.0.2
-Requires:	python-pygtk-glade >= 2:2.10.0
-Requires:	python-pygtk-gtk >= 2:2.10.0
+Requires:	python-pygtk-glade >= 2:2.12.0
+Requires:	python-pygtk-gtk >= 2:2.12.0
 Requires:	python-pyxdg
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -108,12 +107,11 @@ Wiązania Vala do biblioteki libawn.
 
 %prep
 %setup -q
-%patch0 -p1
 
 %build
 %{__intltoolize}
 %{__libtoolize}
-%{__aclocal}
+%{__aclocal} -I m4
 %{__autoconf}
 %{__autoheader}
 %{__automake}
@@ -135,7 +133,9 @@ rm -rf $RPM_BUILD_ROOT
 %{__rm} -r $RPM_BUILD_ROOT%{_localedir}/jv
 
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/*.la
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/awn/applets/*/*.{a,la}
 %{__rm} $RPM_BUILD_ROOT%{py_sitedir}/awn/awn.{la,a}
+
 %py_postclean
 
 %find_lang %{name}
@@ -145,13 +145,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %post
 /sbin/ldconfig
-%gconf_schema_install awn.schemas
-%gconf_schema_install awn-applets-shared.schemas
 %update_icon_cache hicolor
-
-%preun
-%gconf_schema_uninstall awn.schemas
-%gconf_schema_uninstall awn-applets-shared.schemas
 
 %postun
 /sbin/ldconfig
@@ -160,33 +154,37 @@ rm -rf $RPM_BUILD_ROOT
 %files -f %{name}.lang
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog NEWS README TODO
-%{_sysconfdir}/gconf/schemas/awn.schemas
-%{_sysconfdir}/gconf/schemas/awn-applets-shared.schemas
 %attr(755,root,root) %{_bindir}/avant-window-navigator
-%attr(755,root,root) %{_bindir}/awn-autostart
-%attr(755,root,root) %{_bindir}/awn-applet-activation
-%attr(755,root,root) %{_bindir}/awn-applets-migration
-%attr(755,root,root) %{_bindir}/awn-manager
-%attr(755,root,root) %{_bindir}/awn-launcher-editor
-%attr(755,root,root) %{_bindir}/awn-schema-to-gconf
+%attr(755,root,root) %{_bindir}/awn-applet
+%attr(755,root,root) %{_bindir}/awn-settings
 %attr(755,root,root) %{_libdir}/libawn.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libawn.so.0
+%attr(755,root,root) %ghost %{_libdir}/libawn.so.1
+%dir %{_libdir}/awn
+%dir %{_libdir}/awn/applets
+%dir %{_libdir}/awn/applets/expander
+%{_libdir}/awn/applets/expander/expander.so
+%dir %{_libdir}/awn/applets/quick-prefs
+%{_libdir}/awn/applets/quick-prefs/quick-prefs.so
+%dir %{_libdir}/awn/applets/separator
+%{_libdir}/awn/applets/separator/separator.so
+%dir %{_libdir}/awn/applets/taskmanager
+%{_libdir}/awn/applets/taskmanager/taskmanager.so
 %{_datadir}/avant-window-navigator
-%{_desktopdir}/awn-manager.desktop
-%{_desktopdir}/avant-window-navigator.desktop
+
 %dir %{py_sitedir}/awn
 %{py_sitedir}/awn/__init__.py[co]
 %attr(755,root,root) %{py_sitedir}/awn/awn.so
-%{_iconsdir}/hicolor/24x24/apps/avant-window-navigator.png
-%{_iconsdir}/hicolor/32x32/apps/avant-window-navigator.png
-%{_iconsdir}/hicolor/48x48/apps/awn-manager.png
-%{_iconsdir}/hicolor/48x48/apps/avant-window-navigator.png
-%{_iconsdir}/hicolor/scalable/apps/awn-manager.svg
-%{_iconsdir}/hicolor/scalable/apps/avant-window-navigator.svg
+%{_desktopdir}/awn-settings.desktop
+%{_desktopdir}/avant-window-navigator.desktop
+%{_iconsdir}/hicolor/*/apps/awn-settings.*
+%{_iconsdir}/hicolor/*/apps/avant-window-navigator.*
+%{_iconsdir}/hicolor/scalable/apps/awn-window-fallback.svg
+%{_iconsdir}/hicolor/scalable/categories/awn-plugins.svg
 
 %files devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libawn.so
+%{_datadir}/pygtk/2.0/defs/awn.defs
 %{_includedir}/libawn
 %{_pkgconfigdir}/awn.pc
 
