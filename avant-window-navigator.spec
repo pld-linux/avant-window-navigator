@@ -37,6 +37,7 @@ BuildRequires:	xorg-lib-libXrender-devel
 Requires(post,postun):	/sbin/ldconfig
 Requires(post,postun):	gtk-update-icon-cache
 Requires(post,postun):	hicolor-icon-theme
+Requires:	python-desktop-agnostic
 Requires:	python-pycairo >= 1.0.2
 Requires:	python-pygtk-glade >= 2:2.12.0
 Requires:	python-pygtk-gtk >= 2:2.12.0
