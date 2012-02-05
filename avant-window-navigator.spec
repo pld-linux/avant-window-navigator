@@ -2,7 +2,7 @@ Summary:	Fully customisable dock-like window navigator for GNOME
 Summary(pl.UTF-8):	W pełni konfigurowalny dokowy nawigator okien dla GNOME
 Name:		avant-window-navigator
 Version:	0.4.0
-Release:	2
+Release:	3
 License:	GPL v2+
 Group:		X11/Applications
 Source0:	http://launchpad.net/awn/0.4/%{version}/+download/%{name}-%{version}.tar.gz
@@ -37,6 +37,7 @@ BuildRequires:	xorg-lib-libXrender-devel
 Requires(post,postun):	/sbin/ldconfig
 Requires(post,postun):	gtk-update-icon-cache
 Requires(post,postun):	hicolor-icon-theme
+Requires(post,preun):	GConf2
 Requires:	python-desktop-agnostic
 Requires:	python-pycairo >= 1.0.2
 Requires:	python-pygtk-glade >= 2:2.12.0
@@ -118,9 +119,9 @@ Wiązania Vala do biblioteki libawn.
 %{__automake}
 %configure \
 	--enable-gtk-doc \
+	--with-vala \
 	--with-html-dir=%{_gtkdocdir} \
 	--disable-pymod-checks \
-	--disable-schemas-install
 
 %{__make}
 
@@ -128,6 +129,7 @@ Wiązania Vala do biblioteki libawn.
 rm -rf $RPM_BUILD_ROOT
 
 %{__make} install \
+	GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1 \
 	DESTDIR=$RPM_BUILD_ROOT
 
 # not supported by glibc (as for 2.13-3)
@@ -148,6 +150,12 @@ rm -rf $RPM_BUILD_ROOT
 %post
 /sbin/ldconfig
 %update_icon_cache hicolor
+%gconf_schema_install avant-window-navigator.schemas
+%gconf_schema_install awn-applet-taskmanager.schemas
+
+%preun
+%gconf_schema_uninstall avant-window-navigator.schemas
+%gconf_schema_uninstall awn-applet-taskmanager.schemas
 
 %postun
 /sbin/ldconfig
@@ -156,6 +164,8 @@ rm -rf $RPM_BUILD_ROOT
 %files -f %{name}.lang
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog NEWS README TODO
+%{_sysconfdir}/gconf/schemas/avant-window-navigator.schemas
+%{_sysconfdir}/gconf/schemas/awn-applet-taskmanager.schemas
 %attr(755,root,root) %{_bindir}/avant-window-navigator
 %attr(755,root,root) %{_bindir}/awn-applet
 %attr(755,root,root) %{_bindir}/awn-settings
