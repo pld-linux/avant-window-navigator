@@ -89,9 +89,7 @@ Summary:	libawn library API documentation
 Summary(pl.UTF-8):	Dokumentacja API biblioteki libawn
 Group:		Documentation
 Requires:	gtk-doc-common
-%if "%{_rpmversion}" >= "5"
 BuildArch:	noarch
-%endif
 
 %description apidocs
 libawn library API documentation.
@@ -103,9 +101,7 @@ Dokumentacja API biblioteki libawn.
 Summary:	Vala bindings to libawn library
 Summary(pl.UTF-8):	Wiązania Vala do biblioteki libawn
 Group:		Development/Libraries
-%if "%{_rpmversion}" >= "5"
 BuildArch:	noarch
-%endif
 
 %description -n vala-avant-window-navigator
 Vala bindings to libawn library.
