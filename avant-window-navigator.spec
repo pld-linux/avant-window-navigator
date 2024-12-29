@@ -134,9 +134,8 @@ rm -rf $RPM_BUILD_ROOT
 	GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1 \
 	DESTDIR=$RPM_BUILD_ROOT
 
-# not supported by glibc (as for 2.13-3)
+# not supported by glibc (as for 2.40)
 %{__rm} -r $RPM_BUILD_ROOT%{_localedir}/jv
-%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/kab
 
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/*.la
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/awn/applets/*/*.{a,la}
