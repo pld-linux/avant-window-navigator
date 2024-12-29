@@ -28,6 +28,7 @@ BuildRequires:	pkgconfig
 BuildRequires:	python-devel >= 2.3.5
 BuildRequires:	python-pycairo-devel >= 1.0.2
 BuildRequires:	python-pygtk-devel >= 2:2.12.0
+BuildRequires:	rpm-build >= 4.6
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.311
 BuildRequires:	vala >= 0.7.10
